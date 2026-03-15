@@ -314,15 +314,14 @@ def build_menu():
         f"[magenta]{update_def[2]}[/magenta]"
     )
 
-    # ── Hint bar ──
+    # ── Claude-style dual-line prompt area ──
     console.print(Rule(style="dim magenta"))
     console.print(
-        "  [dim]Enter number  ·  "
-        "[bold cyan]/[/bold cyan] search  ·  "
-        "[bold cyan]t[/bold cyan] tags  ·  "
-        "[bold cyan]r[/bold cyan] recommend  ·  "
-        "[bold cyan]?[/bold cyan] help  ·  "
-        "[bold cyan]q[/bold cyan] quit[/dim]\n"
+        "  [dim cyan]/[/dim cyan][dim]search  "
+        "[/dim][dim cyan]t[/dim cyan][dim]ags  "
+        "[/dim][dim cyan]r[/dim cyan][dim]ecommend  "
+        "[/dim][dim cyan]?[/dim cyan][dim]help  "
+        "[/dim][dim cyan]q[/dim cyan][dim]uit[/dim]"
     )
 
 
@@ -528,9 +527,12 @@ def recommend_tools():
                 pass
 
 
-def search_tools():
-    """Interactive search — user types query, results update, select to jump."""
-    query = Prompt.ask("[bold cyan]/ Search[/bold cyan]", default="").strip().lower()
+def search_tools(query: str | None = None):
+    """Search tools — accepts inline query or prompts for one."""
+    if query is None:
+        query = Prompt.ask("[bold cyan]/ Search[/bold cyan]", default="").strip().lower()
+    else:
+        query = query.lower()
     if not query:
         return
 
@@ -591,28 +593,38 @@ def interact_menu():
     while True:
         try:
             build_menu()
-            raw = Prompt.ask("[bold magenta]>[/bold magenta]", default="").strip().lower()
+            raw = Prompt.ask(
+                "[bold magenta]╰─>[/bold magenta]", default=""
+            ).strip()
 
             if not raw:
                 continue
 
-            if raw in ("?", "help"):
+            raw_lower = raw.lower()
+
+            if raw_lower in ("?", "help"):
                 show_help()
                 continue
 
-            if raw.startswith("/") or raw in ("s", "search"):
+            if raw.startswith("/"):
+                # Inline search: /subdomain → search immediately
+                query = raw[1:].strip()
+                search_tools(query=query if query else None)
+                continue
+
+            if raw_lower in ("s", "search"):
                 search_tools()
                 continue
 
-            if raw in ("t", "tag", "tags", "filter"):
+            if raw_lower in ("t", "tag", "tags", "filter"):
                 filter_by_tag()
                 continue
 
-            if raw in ("r", "rec", "recommend"):
+            if raw_lower in ("r", "rec", "recommend"):
                 recommend_tools()
                 continue
 
-            if raw in ("q", "quit", "exit"):
+            if raw_lower in ("q", "quit", "exit"):
                 console.print(Panel(
                     "[bold white on magenta]  Goodbye — Come Back Safely  [/bold white on magenta]",
                     box=box.HEAVY, border_style="magenta",
@@ -620,9 +632,9 @@ def interact_menu():
                 break
 
             try:
-                choice = int(raw)
+                choice = int(raw_lower)
             except ValueError:
-                console.print("[red]⚠  Invalid input — enter a number, ? for help, or q to quit.[/red]")
+                console.print("[red]⚠  Invalid input — enter a number, /query to search, or q to quit.[/red]")
                 Prompt.ask("[dim]Press Enter to continue[/dim]", default="")
                 continue
 

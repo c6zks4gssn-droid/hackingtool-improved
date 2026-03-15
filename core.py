@@ -169,11 +169,12 @@ class HackingTool:
             table.add_row("99", f"Back to {parent.TITLE if parent else 'Main Menu'}")
             console.print(table)
             console.print(
-                "[dim]  Enter number  ·  [bold cyan]?[/bold cyan] help"
-                "  ·  [bold cyan]q[/bold cyan] quit[/dim]"
+                "  [dim cyan]?[/dim cyan][dim]help  "
+                "[/dim][dim cyan]q[/dim cyan][dim]uit  "
+                "[/dim][dim cyan]99[/dim cyan][dim] back[/dim]"
             )
 
-            raw = Prompt.ask("\n[bold cyan]>[/bold cyan]", default="").strip().lower()
+            raw = Prompt.ask("[bold cyan]╰─>[/bold cyan]", default="").strip().lower()
             if not raw:
                 continue
             if raw in ("?", "help"):
@@ -390,11 +391,12 @@ class HackingToolsCollection:
             table.add_row("99", "", f"Back to {parent.TITLE if parent else 'Main Menu'}", "")
             console.print(table)
             console.print(
-                "[dim]  Enter number  ·  [bold cyan]?[/bold cyan] help"
-                "  ·  [bold cyan]q[/bold cyan] quit[/dim]"
+                "  [dim cyan]?[/dim cyan][dim]help  "
+                "[/dim][dim cyan]q[/dim cyan][dim]uit  "
+                "[/dim][dim cyan]99[/dim cyan][dim] back[/dim]"
             )
 
-            raw = Prompt.ask("\n[bold cyan]>[/bold cyan]", default="").strip().lower()
+            raw = Prompt.ask("[bold cyan]╰─>[/bold cyan]", default="").strip().lower()
             if not raw:
                 continue
             if raw in ("?", "help"):
