@@ -260,19 +260,23 @@ class HackingToolsCollection:
             incompatible = self._incompatible_tools()
             archived = self._archived_tools()
 
-            table = Table(title="Available Tools", box=box.MINIMAL_DOUBLE_HEAD)
-            table.add_column("No.", justify="center", style="bold cyan")
-            table.add_column("Tool", style="bold yellow")
+            table = Table(title="Available Tools", box=box.SIMPLE_HEAD, show_lines=True)
+            table.add_column("No.", justify="center", style="bold cyan", width=6)
+            table.add_column("Tool", style="bold yellow", min_width=24)
+            table.add_column("Description", style="white", overflow="fold")
 
-            for index, tool in enumerate(active):
-                table.add_row(str(index), tool.TITLE)
+            for index, tool in enumerate(active, start=1):
+                desc = getattr(tool, "DESCRIPTION", "") or "—"
+                # Show only first line of description to keep rows compact
+                desc = desc.splitlines()[0] if desc != "—" else "—"
+                table.add_row(str(index), tool.TITLE, desc)
 
             if archived:
-                table.add_row("[dim]98[/dim]", f"[archived]Archived tools ({len(archived)})[/archived]")
+                table.add_row("[dim]98[/dim]", f"[archived]Archived tools ({len(archived)})[/archived]", "")
             if incompatible:
                 console.print(f"[dim]({len(incompatible)} tools hidden — not supported on current OS)[/dim]")
 
-            table.add_row("99", f"Back to {parent.TITLE if parent else 'Main Menu'}")
+            table.add_row("99", f"Back to {parent.TITLE if parent else 'Main Menu'}", "")
             console.print(table)
 
             raw = Prompt.ask("\n[bold cyan][?] Choose a tool[/bold cyan]", default="")
@@ -288,9 +292,9 @@ class HackingToolsCollection:
                 return
             elif choice == 98 and archived:
                 self._show_archived_tools()
-            elif 0 <= choice < len(active):
+            elif 1 <= choice <= len(active):
                 try:
-                    ret = active[choice].show_options(parent=self)
+                    active[choice - 1].show_options(parent=self)
                 except Exception:
                     console.print_exception(show_locals=True)
                     Prompt.ask("[dim]Press Enter to continue[/dim]", default="")
