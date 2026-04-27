@@ -1,9 +1,20 @@
 {
-  "name": "HackingTool",
-  "image": "mcr.microsoft.com/devcontainers/python:3.12",
-  "postCreateCommand": "pip install -e .",
+  "name": "HackingTool Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/python:3.10",
   "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "forwardPorts": [8000]
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "pycqa.isort",
+        "mtxr.sqltools"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install -r requirements.txt && pre-commit install",
+  "ports": [3000],
+  "runArgs": ["--network=host"]
 }

@@ -1,37 +1,45 @@
-# Contributing to HackingTool
+# Contributing to hackingtool
 
-Thank you for your interest in contributing! Please follow these guidelines.
+Thank you for your interest in contributing! 🎉
 
-## How to Contribute
+## Getting Started
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-tool`)
-3. Add your tool to the appropriate category in `tools/`
-4. Ensure your tool class has: TITLE, DESCRIPTION, INSTALL_COMMANDS, RUN_COMMANDS, SUPPORTED_OS
-5. Test locally: `python hackingtool.py`
-6. Commit your changes (`git commit -m 'Add amazing tool'`)
-7. Push to the branch (`git push origin feature/amazing-tool`)
-8. Open a Pull Request using the `[New Tool] ToolName — Category` format
+1. **Fork** the repository
+2. **Clone** your fork: `git clone https://github.com/YOUR_USERNAME/hackingtool`
+3. **Create a branch**: `git checkout -b feature/your-feature-name`
+4. **Install dependencies**: `pip install -r requirements.txt`
+5. **Run pre-commit**: `pre-commit install`
 
-## Tool Request
+## Development Workflow
 
-Open an issue with `[Tool Request] ToolName — Category` title format.
+- Keep your branch focused and small
+- Write clean, documented code
+- Test locally before submitting a PR
+- Follow the existing code style
 
-Required info: tool name, GitHub URL, category, OS, install command, reason.
+## Code Standards
 
-## Code Style
+- Python 3.10+ required
+- Format with `black` and `isort`
+- Lint with `flake8`
+- Max line length: 120 characters
 
-- Python 3.10+
-- Follow existing tool class structure
-- Keep descriptions concise
-- Test on Linux (Kali/Parrot preferred)
+## Pull Request Process
 
-## Security
+1. Update documentation if needed
+2. Add tests for new functionality (if applicable)
+3. Ensure all CI checks pass
+4. Fill out the PR template completely
+5. Request review from maintainers
 
-- Do NOT include actual exploit payloads in PRs
-- Report security vulnerabilities privately via GitHub Security Advisories
-- Tools must have legitimate security research/penetration testing purposes
+## Security Disclosure
 
-## License
+Found a vulnerability? Please report via GitHub Security Advisories, NOT through public issues.
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+## Questions?
+
+Open an issue for discussion before starting major work.
+
+---
+
+Built by Bonanza Labs
